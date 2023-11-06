@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import EmployeeService, { editEmployee, getEmployeeById } from "../services/EmployeeService";
 
 const UpdateEmployee = () => {
-  const { id } = useParams();  // it holding the value from browser url.Id present on employee.jsx 
+  const { empid } = useParams();  // it holding the value from browser url.Id present on employee.jsx 
   const navigate = useNavigate();
   const [employee, setEmployee] = useState({
     fname: "",
@@ -27,9 +27,9 @@ const UpdateEmployee = () => {
       try {
       //calling the get map (getEmployeeById(empid) method) from EmployeeService file
         console.log("calling the get map (getEmployeeById(empid) method) from EmployeeService file");
-        let convertedId = parseInt(id);
-        const response = await getEmployeeById(convertedId);
-        setEmployee(response.data.getEmployeeById);
+        //let convertedId = parseInt(id);
+        const response = await getEmployeeById(empid);
+        setEmployee(response.data.getEmployeeById[0]);
       } catch (error) {
         console.log(error);
       }
@@ -42,8 +42,8 @@ const UpdateEmployee = () => {
     console.log(employee);
   //calling the get map (getEmployeeById(empid) method) from EmployeeService file
     console.log("calling the put map (editEmployee(employee, id) method) from EmployeeService file");
-    editEmployee(employee).then((response) => {
-        alert("Records updated successfully for ID " + response.empid);
+    editEmployee(employee).then(() => {
+        alert("Records updated successfully for ID " + employee.empid);
         navigate("/employeeList");
       })
       .catch((error) => {

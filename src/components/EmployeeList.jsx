@@ -13,27 +13,29 @@ const EmployeeList = () => {
 
   useEffect(() => {
     window.scrollTo(50, 120);
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-      //calling the get map (getEmployees() method) from EmployeeService file
-        console.log("calling the get map (getEmployees() method) from EmployeeService file");
-        const response = await getAllEmployees();
-        setEmployees(response.data.getAllEmployees);
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-      setLoading(false);
-    };
-    fetchData();
+       fetchData();
   }, []);
 
-  const deleteEmpFun = (e, id) => {
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+    //calling the get map (getEmployees() method) from EmployeeService file
+      console.log("calling the get map (getEmployees() method) from EmployeeService file");
+      const response = await getAllEmployees();
+      setEmployees(response.data.getAllEmployees);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
+
+
+  const deleteEmpFun = async (e, id) => {
       e.preventDefault();
     //calling the delete map (deleteEmployees() method) from EmployeeService file
       console.log("calling the delete map (deleteEmployees() method) from EmployeeService file");
-      deleteEmployee(id).then((res) => {
+      await deleteEmployee(id).then((res) => {
           if(employees) {
               setEmployees((prevElement) => {
                   return prevElement.filter((employee) => employee.id !== id);
@@ -41,6 +43,7 @@ const EmployeeList = () => {
               alert("Employee with " + id + " id deleted successfully");
           }
       });
+    fetchData();
   }
 
   return (
